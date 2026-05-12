@@ -7,6 +7,7 @@ public class GridManager : MonoBehaviour
     [SerializeField] private int height = 10;
 
     [SerializeField] private GameObject tilePrefab;
+    [SerializeField] private Unit unitPrefab; // TEMP: For spawning test unit
     
     private GameTile[,] tiles;
 
@@ -15,6 +16,9 @@ public class GridManager : MonoBehaviour
     void Start()
     {
         GenerateGrid();
+
+        // TEMP - spawning test unit here for now.
+        SpawnTestUnit();
     }
 
     private void GenerateGrid()
@@ -32,5 +36,11 @@ public class GridManager : MonoBehaviour
                 tiles[x,y] = tile;
             }
         }
+    }
+
+    private void SpawnTestUnit()
+    {
+        Unit unit = Instantiate(unitPrefab);
+        unit.Init(2,2);
     }
 }

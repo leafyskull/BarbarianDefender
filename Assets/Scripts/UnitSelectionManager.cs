@@ -5,10 +5,18 @@ using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum UnitAction
+{
+    None,
+    Move,
+    Attack
+}
+
 public class UnitSelectionManager : MonoBehaviour
 {
     public static UnitSelectionManager Instance { get; private set; }
     public Unit SelectedUnit { get; private set; }
+    public UnitAction SelectedUnitAction { get; private set; }
     private readonly List<GameTile> highlightedTiles = new List<GameTile>();
 
 
@@ -16,8 +24,6 @@ public class UnitSelectionManager : MonoBehaviour
     [SerializeField] private GameObject selectedUnitPanel;
     [SerializeField] private TMP_Text selectedUnitTypeText;
     [SerializeField] private TMP_Text selectedUnitmovePointsText;
-    [SerializeField] private Button moveButton;
-    [SerializeField] private Button attackButton;
 
 
     // Awake(): Sets instance reference
@@ -71,6 +77,7 @@ public class UnitSelectionManager : MonoBehaviour
         SelectedUnit = null;
 
         selectedUnitPanel.SetActive(false);
+        SelectedUnitAction = UnitAction.None;
     }
 
     // OnTileClicked(): Handles unit selection once a tile is clicked.
@@ -93,11 +100,26 @@ public class UnitSelectionManager : MonoBehaviour
 
         // If you have unit selceted, and click on unoccupied tile
         // TODO: Attack and move choice
+        
+        // ATTACK
+
+        // MOVE
+
+
         SelectedUnit.MoveTo(tile);
         Debug.Log($"Moved unit to {tile.x},{tile.y}");
         ClearSelection();
     }
 
+    // HighlightMoveRange(): Highlights tiles within unit's move range.
+    //
+    // unit: The unit being referenced.
+    //
+    // Thought: For now, there's just move points, and each tile is 1 move point.
+    // This makes movability, etc. easy to calculate.
+    // A future idea is to take the unit's current location as a start point, the destination
+    // as the end point, and find a series of tile movements that gets there in the least number
+    // of points.
     public void HighlightMoveRange(Unit unit)
     {
         highlightedTiles.Clear();
@@ -110,6 +132,12 @@ public class UnitSelectionManager : MonoBehaviour
         }
     }
 
+    // HighlightAttackRange(): Highlights all tiles within a unit's attack range.
+    //
+    // unit: The unit being referenced.
+    //
+    // Similar future thinking to "HighlightMoveRange" above ^, particularly
+    // for handling terrain (hills, forests, etc).
     public void HighlightAttackRange(Unit unit)
     {
         highlightedTiles.Clear();
@@ -143,8 +171,9 @@ public class UnitSelectionManager : MonoBehaviour
     // - All tiles in attack range are highlighted.
     // - If tile containing enemy is then clicked, enemy is attacked.
     // - If anything else is clicked, nothing happens.
-    private void AttackButtonClicked()
+    public void AttackButtonClicked()
     {
+        SelectedUnitAction = UnitAction.Attack;
         HighlightAttackRange(SelectedUnit);
     }
 
@@ -155,8 +184,9 @@ public class UnitSelectionManager : MonoBehaviour
     // - "Move" action is enabled.
     // - All tiles in move range are highlighted.
     // - If free tile is clicked, unit moves to tile and move points are consumed.
-    private void MoveButtonClicked()
+    public void MoveButtonClicked()
     {
+        SelectedUnitAction = UnitAction.Move;
         HighlightMoveRange(SelectedUnit);
     }
 

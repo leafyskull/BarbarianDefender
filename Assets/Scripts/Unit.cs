@@ -18,6 +18,13 @@ public class Unit : MonoBehaviour, IPointerDownHandler
     private int attackRange = 1;
     public int MovePoints => movePoints;
     public int AttackRange => attackRange;
+    private int attackStrength = 1;
+    private int defendStrength = 1;
+    public int AttackStrenght => attackStrength;
+    public int DefendStrength => defendStrength;
+
+    private int health = 10;
+    public int Health => health;
 
 
 
@@ -69,5 +76,26 @@ public class Unit : MonoBehaviour, IPointerDownHandler
         this.CurrentTile.SetOccupyingUnit(this);
 
         transform.position = new Vector3(destinationTile.x, destinationTile.y, -1);
+    }
+
+    // AttackUnit(): Makes this unit attack a target unit.
+    //
+    // enemyUnit: The unit to attack.
+    //
+    // For now, I'll just have the damage done be the difference between attacker's attack
+    // strength and the target's defense strength. (TEMP)
+    public void AttackUnit(Unit enemyUnit)
+    {
+        int damage = this.attackStrength - enemyUnit.DefendStrength;
+        enemyUnit.ReduceHealth(damage);
+    }
+
+    // ReduceHealth(): Reduces a unit's health.
+    //
+    // amount: Amount of health to take away.
+    public void ReduceHealth(int amount)
+    {
+        if (amount < 0) return;
+        this.health -= amount;
     }
 }

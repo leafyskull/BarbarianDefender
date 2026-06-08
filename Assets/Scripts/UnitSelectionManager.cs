@@ -98,12 +98,40 @@ public class UnitSelectionManager : MonoBehaviour
             return;
         }
 
-        // If you have unit selceted, and click on unoccupied tile
-        // TODO: Attack and move choice
-        
-        // ATTACK
-
-        // MOVE
+        // If you have unit selected, and click on unoccupied tile,
+        // handle action according to SelectedUnitAction:
+        if (SelectedUnitAction == UnitAction.None)
+        {
+            Debug.Log("SelectedUnitAction is None!");
+            return;
+        }
+        else if (SelectedUnitAction == UnitAction.Move)
+        {
+            // Try to move unit to tile
+            List<GameTile> validMoveTiles = GridManager.Instance.GetTilesInMoveRange(SelectedUnit);
+            if (validMoveTiles.Contains(tile)){
+                SelectedUnit.MoveTo(tile);
+            }
+            else
+            {
+                Debug.Log("Invalid move - outside of move range!");
+                return;
+            }
+        }
+        else if (SelectedUnitAction == UnitAction.Attack)
+        {
+            // Try to attack the tile
+            List<GameTile> validAttackTiles = GridManager.Instance.GetTilesInAttackRange(SelectedUnit);
+            if (validAttackTiles.Contains(tile))
+            {
+                // TODO: Attack
+            }
+            else
+            {
+                Debug.Log("Invalid attack - outside of attack range!");
+                return;    
+            }
+        }
 
 
         SelectedUnit.MoveTo(tile);
@@ -160,6 +188,8 @@ public class UnitSelectionManager : MonoBehaviour
 
         highlightedTiles.Clear();
     }
+
+
 
     // ********** UI interaction **********
 

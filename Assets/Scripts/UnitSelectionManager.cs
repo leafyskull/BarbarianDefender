@@ -46,7 +46,7 @@ public class UnitSelectionManager : MonoBehaviour
         // Unselect currently selected unit
         if (SelectedUnit != null)
         {
-            SelectedUnit.SetSelected(false);
+            ClearSelection();
         }
 
         // Select new unit
@@ -77,7 +77,7 @@ public class UnitSelectionManager : MonoBehaviour
         SelectedUnit = null;
 
         selectedUnitPanel.SetActive(false);
-        SelectedUnitAction = UnitAction.None;
+        SetSelectedUnitAction(UnitAction.None);
     }
 
     // OnTileClicked(): Handles unit selection once a tile is clicked.
@@ -125,6 +125,8 @@ public class UnitSelectionManager : MonoBehaviour
             if (validAttackTiles.Contains(tile))
             {
                 // TODO: Attack
+                Debug.Log($"Unit attacks tile {tile.x},{tile.y}");
+                return;
             }
             else
             {
@@ -203,8 +205,24 @@ public class UnitSelectionManager : MonoBehaviour
     // - If anything else is clicked, nothing happens.
     public void AttackButtonClicked()
     {
-        SelectedUnitAction = UnitAction.Attack;
+        SetSelectedUnitAction(UnitAction.None);
+
+        // If currently in attack mode, exit.
+        if (SelectedUnitAction == UnitAction.Attack)
+        {
+            SetSelectedUnitAction(UnitAction.None);
+            return;
+        }
+
+        // Else, enter attack mode.
+        SetSelectedUnitAction(UnitAction.Attack);
         HighlightAttackRange(SelectedUnit);
+    }
+
+    private void SetSelectedUnitAction(UnitAction newAction)
+    {
+        ClearHighlights();
+        SelectedUnitAction = newAction;
     }
 
     // MoveButtonClicked(): Called when the move button is clicked.
@@ -216,7 +234,7 @@ public class UnitSelectionManager : MonoBehaviour
     // - If free tile is clicked, unit moves to tile and move points are consumed.
     public void MoveButtonClicked()
     {
-        SelectedUnitAction = UnitAction.Move;
+        SetSelectedUnitAction(UnitAction.None);
         HighlightMoveRange(SelectedUnit);
     }
 

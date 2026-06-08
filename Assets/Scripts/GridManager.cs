@@ -32,7 +32,7 @@ public class GridManager : MonoBehaviour
         GenerateGrid();
 
         // TEMP - spawning test unit here for now.
-        SpawnTestUnit();
+        SpawnTestUnits();
     }
 
     private void GenerateGrid()
@@ -52,12 +52,16 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    private void SpawnTestUnit()
+    private void SpawnTestUnits()
     {
         GameTile startTile = tiles[2,2];
 
         Unit unit = Instantiate(unitPrefab);
         unit.Init(startTile);
+
+        startTile = tiles[2,3];
+        Unit unit2 = Instantiate(unitPrefab);
+        unit2.Init(startTile);
     }
 
     public List<GameTile> GetTilesInMoveRange(Unit unit)

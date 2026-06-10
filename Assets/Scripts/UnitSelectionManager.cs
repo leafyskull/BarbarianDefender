@@ -38,6 +38,13 @@ public class UnitSelectionManager : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        SelectedUnit = null;
+        SelectedUnitAction = UnitAction.None;
+        selectedUnitPanel.SetActive(false);
+    }
+
     // SelectUnit(): Selects a given unit.
     //
     // unit: The unit to be selected.
@@ -191,6 +198,12 @@ public class UnitSelectionManager : MonoBehaviour
         highlightedTiles.Clear();
     }
 
+    private void SetSelectedUnitAction(UnitAction newAction)
+    {
+        ClearHighlights();
+        SelectedUnitAction = newAction;
+    }
+
 
 
     // ********** UI interaction **********
@@ -205,8 +218,6 @@ public class UnitSelectionManager : MonoBehaviour
     // - If anything else is clicked, nothing happens.
     public void AttackButtonClicked()
     {
-        SetSelectedUnitAction(UnitAction.None);
-
         // If currently in attack mode, exit.
         if (SelectedUnitAction == UnitAction.Attack)
         {
@@ -214,15 +225,12 @@ public class UnitSelectionManager : MonoBehaviour
             return;
         }
 
+        // Clear any previous unit action/highlights
+        SetSelectedUnitAction(UnitAction.None);
+
         // Else, enter attack mode.
         SetSelectedUnitAction(UnitAction.Attack);
         HighlightAttackRange(SelectedUnit);
-    }
-
-    private void SetSelectedUnitAction(UnitAction newAction)
-    {
-        ClearHighlights();
-        SelectedUnitAction = newAction;
     }
 
     // MoveButtonClicked(): Called when the move button is clicked.
@@ -234,7 +242,18 @@ public class UnitSelectionManager : MonoBehaviour
     // - If free tile is clicked, unit moves to tile and move points are consumed.
     public void MoveButtonClicked()
     {
+        // If currently in attack mode, exit.
+        if (SelectedUnitAction == UnitAction.Move)
+        {
+            SetSelectedUnitAction(UnitAction.None);
+            return;
+        }
+
+        // Clear any previous unit action/highlights
         SetSelectedUnitAction(UnitAction.None);
+
+        // Else, enter attack mode.
+        SetSelectedUnitAction(UnitAction.Move);
         HighlightMoveRange(SelectedUnit);
     }
 

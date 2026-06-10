@@ -25,8 +25,7 @@ public class GameTile : MonoBehaviour, IPointerDownHandler
     {
         UnitSelectionManager.Instance.OnTileClicked(this);
         
-        // Idea: handle all clicking through tiles instead of units and tiles, to keep
-        // from having overlapping/inconsistent click logic.
+        // Idea: Gametile takes clicks, passes along info.
     }
 
     public void SetOccupyingUnit(Unit unit)

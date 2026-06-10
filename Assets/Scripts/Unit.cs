@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
 
-public class Unit : MonoBehaviour, IPointerDownHandler
+public class Unit : MonoBehaviour
 {
     // The highlight around the unit when they are selected
     [SerializeField] private GameObject selectionVisual;
@@ -55,14 +55,6 @@ public class Unit : MonoBehaviour, IPointerDownHandler
         this.isSelected = isSelected;
     }
 
-    // OnPointerDown(): Handles clicking.
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        // If currently selected, unselect
-        if (isSelected) UnitSelectionManager.Instance.ClearSelection();
-        // If not currently selected, select
-        else UnitSelectionManager.Instance.SelectUnit(this);
-    }
 
     // MoveTo(): Moves unit to a new tile.
     //

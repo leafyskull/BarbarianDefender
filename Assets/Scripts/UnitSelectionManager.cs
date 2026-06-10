@@ -92,6 +92,14 @@ public class UnitSelectionManager : MonoBehaviour
     // tile: The tile being clicked on.
     public void OnTileClicked(GameTile tile)
     {
+        // From Unit.cs:
+        //
+        // // If currently selected, unselect
+        // if (isSelected) UnitSelectionManager.Instance.ClearSelection();
+        // // If not currently selected, select
+        // else UnitSelectionManager.Instance.SelectUnit(this);
+
+
         if (SelectedUnit == null)
         {
             Debug.Log($"Clicked tile: {tile.x},{tile.y}");
@@ -142,8 +150,6 @@ public class UnitSelectionManager : MonoBehaviour
             }
         }
 
-
-        SelectedUnit.MoveTo(tile);
         Debug.Log($"Moved unit to {tile.x},{tile.y}");
         ClearSelection();
     }

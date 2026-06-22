@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -13,6 +14,8 @@ public class UnitSpawner : MonoBehaviour
     [Header("Enemy unit prefabs")]
     [SerializeField] private EnemyMeleeUnit enemyMeleeUnitPrefab;
 
+    private Dictionary<UnitType, Unit> unitPrefabs;
+
 
 
     private void Awake()
@@ -24,6 +27,14 @@ public class UnitSpawner : MonoBehaviour
         }
 
         Instance = this;
+
+        unitPrefabs = new Dictionary<UnitType, Unit>()
+        {
+            { UnitType.FriendlyWeakMelee, friendlyWeakMeleeUnitPrefab },
+            { UnitType.FriendlyStrongMelee, friendlyStrongMeleeUnitPrefab },
+            { UnitType.FriendlyRanged, friendlyRangedUnitPrefab },
+            { UnitType.EnemyMelee, enemyMeleeUnitPrefab },
+        };
     }
 
     // SpawnUnitOnTile(): Spawns a unit on the given tile.
@@ -43,14 +54,7 @@ public class UnitSpawner : MonoBehaviour
             return null;
         }
 
-        Unit newUnit = unitType switch
-        {
-            UnitType.FriendlyWeakMelee => Instantiate(friendlyWeakMeleeUnitPrefab),
-            UnitType.FriendlyStrongMelee => Instantiate(friendlyStrongMeleeUnitPrefab),
-            UnitType.FriendlyRanged => Instantiate(friendlyRangedUnitPrefab),
-            UnitType.EnemyMelee => Instantiate(enemyMeleeUnitPrefab),
-            _ => null
-        };
+        Unit newUnit = Instantiate(unitPrefabs[unitType]);
 
         if (newUnit == null)
         {

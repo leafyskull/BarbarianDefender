@@ -10,6 +10,7 @@ public class GameTile : MonoBehaviour, IPointerDownHandler
     public Unit OccupyingUnit { get; private set; }
     public bool IsOccupied => OccupyingUnit != null;
     public bool IsHighlighted { get; private set; }
+    public bool IsVisible { get; private set; }
 
     [Header("Visuals")]
     [SerializeField] private SpriteRenderer highlightRenderer;
@@ -46,6 +47,16 @@ public class GameTile : MonoBehaviour, IPointerDownHandler
 
         if (highlightRenderer != null)
             highlightRenderer.enabled = isHighlighted;
+    }
+
+    public void SetHighlightColor(Color color)
+    {
+        this.highlightRenderer.color = color;
+    }
+
+    public void SetVisible(bool isVisible)
+    {
+        this.IsVisible = isVisible;
     }
 
 }

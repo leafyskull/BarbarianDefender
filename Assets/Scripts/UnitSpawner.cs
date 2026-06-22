@@ -63,6 +63,7 @@ public class UnitSpawner : MonoBehaviour
         }
 
         newUnit.Init(tile);
+        UnitManager.Instance.AddUnitToManager(newUnit);
 
         return newUnit;
     }

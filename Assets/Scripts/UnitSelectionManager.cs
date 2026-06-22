@@ -130,7 +130,6 @@ public class UnitSelectionManager : MonoBehaviour
         {
             // TODO: Attack
             SelectedUnit.AttackUnit(tile.OccupyingUnit);
-            Debug.Log($"Unit attacks tile {tile.x},{tile.y}");
         }
         else
         {
@@ -191,6 +190,7 @@ public class UnitSelectionManager : MonoBehaviour
 
         foreach (GameTile tile in validMoveTiles){
             tile.SetHighlight(true);
+            tile.SetHighlightColor(Color.yellow);
             highlightedTiles.Add(tile);
         }
     }
@@ -210,6 +210,7 @@ public class UnitSelectionManager : MonoBehaviour
         foreach (GameTile tile in validAttackTiles)
         {
             tile.SetHighlight(true);
+            tile.SetHighlightColor(Color.red);
             highlightedTiles.Add(tile);
         }
     }

@@ -36,12 +36,14 @@ public class Unit : MonoBehaviour
     protected int attackRange = 1;
     protected int attackStrength = 1;
     protected int defendStrength = 1;
+    protected int visionRange = 2;
 
     public int MovePoints => movePoints;
     public int AttackRange => attackRange;
     public int AttackStrength => attackStrength;
     public int DefendStrength => defendStrength;
     public int Health => health;
+    public int VisionRange => 2;
 
     [SerializeField] protected UnitTeam team;
     public UnitTeam Team => team;
@@ -131,6 +133,7 @@ public class Unit : MonoBehaviour
         if (CurrentTile != null)
             CurrentTile.ClearOccupyingUnit();
         
+        UnitManager.Instance.RemoveUnitFromManager(this);
         Destroy(gameObject);
     }
 }

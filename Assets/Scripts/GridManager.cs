@@ -109,6 +109,24 @@ public class GridManager : MonoBehaviour
         return validTiles;
     }
 
+    public List<GameTile> GetTilesInRange(GameTile origin, int range)
+    {
+        List<GameTile> validTiles = new List<GameTile>();
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                GameTile tile = tiles[x,y];
+
+                int distance = GetManhattanDistance(origin.x, origin.y, tile.x, tile.y);
+                if (distance <= range) validTiles.Add(tile);
+            }
+        }
+
+        return validTiles;
+    }
+
     private int GetManhattanDistance(int x1, int y1, int x2, int y2)
     {
         return Mathf.Abs(x1 - x2) + Mathf.Abs(y1 - y2);

@@ -54,14 +54,17 @@ public class GridManager : MonoBehaviour
 
     private void SpawnTestUnits()
     {
-        GameTile startTile = tiles[2,2];
+        // Friendly units
+        GameTile spawnTile = tiles[2,2];
+        UnitSpawner.Instance.SpawnUnitOnTile(UnitType.FriendlyWeakMelee, spawnTile);
+        spawnTile = tiles[3,2];
+        UnitSpawner.Instance.SpawnUnitOnTile(UnitType.FriendlyStrongMelee, spawnTile);
+        spawnTile = tiles[4,2];
+        UnitSpawner.Instance.SpawnUnitOnTile(UnitType.FriendlyRanged, spawnTile);
 
-        Unit unit = Instantiate(unitPrefab);
-        unit.Init(startTile);
-
-        startTile = tiles[2,3];
-        Unit unit2 = Instantiate(unitPrefab);
-        unit2.Init(startTile);
+        // Enemy unit(s)
+        spawnTile = tiles[3,6];
+        UnitSpawner.Instance.SpawnUnitOnTile(UnitType.EnemyMelee, spawnTile);
     }
 
     public List<GameTile> GetTilesInMoveRange(Unit unit)

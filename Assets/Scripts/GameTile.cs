@@ -21,11 +21,13 @@ public class GameTile : MonoBehaviour, IPointerDownHandler
         SetHighlight(false);
     }
 
+    // OnPointerDown(): Handles clicking on tiles.
+    //
+    // The current idea is this: When a tile is clicked, it passes itself to the UnitSelectionManager
+    // to handle what happens.
     public void OnPointerDown(PointerEventData eventData)
     {
         UnitSelectionManager.Instance.OnTileClicked(this);
-        
-        // Idea: Gametile takes clicks, passes along info.
     }
 
     public void SetOccupyingUnit(Unit unit)
@@ -45,4 +47,5 @@ public class GameTile : MonoBehaviour, IPointerDownHandler
         if (highlightRenderer != null)
             highlightRenderer.enabled = isHighlighted;
     }
+
 }

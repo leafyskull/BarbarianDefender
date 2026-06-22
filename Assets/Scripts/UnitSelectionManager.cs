@@ -87,71 +87,76 @@ public class UnitSelectionManager : MonoBehaviour
         SetSelectedUnitAction(UnitAction.None);
     }
 
+    private void HandleMovement(GameTile tile)
+    {
+        // If tile is occupied, cannot move.
+        if (tile.IsOccupied)
+        {
+            Debug.Log("Tile is already occupied - cannot move!");
+            return;
+        }
+
+        // Try to move unit to tile
+        List<GameTile> validMoveTiles = GridManager.Instance.GetTilesInMoveRange(SelectedUnit);
+        if (validMoveTiles.Contains(tile)){
+            SelectedUnit.MoveTo(tile);
+        }
+        else
+        {
+            Debug.Log("Invalid move - outside of move range!");
+        }
+    }
+
+    private void HandleAttack(GameTile tile)
+    {
+        // TODO: Disable attacking your own units
+        
+        // Try to attack the tile
+        List<GameTile> validAttackTiles = GridManager.Instance.GetTilesInAttackRange(SelectedUnit);
+        if (validAttackTiles.Contains(tile))
+        {
+            // TODO: Attack
+            Debug.Log($"Unit attacks tile {tile.x},{tile.y}");
+        }
+        else
+        {
+            Debug.Log("Invalid attack - outside of attack range!");
+        }
+    }
+
     // OnTileClicked(): Handles unit selection once a tile is clicked.
     //
     // tile: The tile being clicked on.
     public void OnTileClicked(GameTile tile)
     {
-        // From Unit.cs:
-        //
-        // // If currently selected, unselect
-        // if (isSelected) UnitSelectionManager.Instance.ClearSelection();
-        // // If not currently selected, select
-        // else UnitSelectionManager.Instance.SelectUnit(this);
-
-
-        if (SelectedUnit == null)
-        {
-            Debug.Log($"Clicked tile: {tile.x},{tile.y}");
-            return;
-        }
-
-        // If you currently have a unit selected, and click on a tile that's occupied.
-        if (tile.IsOccupied)
-        {
-            Debug.Log("Tile is already occupied!");
-            return;
-        }
-
-        // If you have unit selected, and click on unoccupied tile,
-        // handle action according to SelectedUnitAction:
+        // If you're in move mode, handle movement
+        // If you're in attack mode, handle attacking
+        // Else, handle unit selection/unselection.
         if (SelectedUnitAction == UnitAction.None)
         {
-            Debug.Log("SelectedUnitAction is None!");
-            return;
+            if (tile.OccupyingUnit == SelectedUnit)
+                ClearSelection();
+            else if (tile.OccupyingUnit != null)
+                SelectUnit(tile.OccupyingUnit);
         }
         else if (SelectedUnitAction == UnitAction.Move)
         {
-            // Try to move unit to tile
-            List<GameTile> validMoveTiles = GridManager.Instance.GetTilesInMoveRange(SelectedUnit);
-            if (validMoveTiles.Contains(tile)){
-                SelectedUnit.MoveTo(tile);
-            }
-            else
-            {
-                Debug.Log("Invalid move - outside of move range!");
-                return;
-            }
+            HandleMovement(tile);
+            ClearSelection();
+            return;
         }
         else if (SelectedUnitAction == UnitAction.Attack)
         {
-            // Try to attack the tile
-            List<GameTile> validAttackTiles = GridManager.Instance.GetTilesInAttackRange(SelectedUnit);
-            if (validAttackTiles.Contains(tile))
-            {
-                // TODO: Attack
-                Debug.Log($"Unit attacks tile {tile.x},{tile.y}");
-                return;
-            }
-            else
-            {
-                Debug.Log("Invalid attack - outside of attack range!");
-                return;    
-            }
+            HandleAttack(tile);
+            ClearSelection();
+            return;
         }
 
-        Debug.Log($"Moved unit to {tile.x},{tile.y}");
-        ClearSelection();
+
+
+
+
+        
     }
 
     // HighlightMoveRange(): Highlights tiles within unit's move range.

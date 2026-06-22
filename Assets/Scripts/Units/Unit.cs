@@ -104,7 +104,12 @@ public class Unit : MonoBehaviour
     public void AttackUnit(Unit targetUnit)
     {
         int damage = Mathf.Max(0, this.attackStrength - targetUnit.DefendStrength);
+        if (damage > targetUnit.Health) damage = targetUnit.Health;
+
         targetUnit.ReduceHealth(damage);
+        
+        Debug.Log($"{this} attacks {targetUnit}, does {damage} damage!");
+        Debug.Log($"{targetUnit} remaining health: {targetUnit.Health}");
     }
 
     // ReduceHealth(): Reduces a unit's health.

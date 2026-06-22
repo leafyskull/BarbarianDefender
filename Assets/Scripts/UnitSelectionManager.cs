@@ -50,6 +50,8 @@ public class UnitSelectionManager : MonoBehaviour
     // unit: The unit to be selected.
     public void SelectUnit(Unit unit)
     {
+        if (unit == null || unit.IsEnemy) return;
+
         // Unselect currently selected unit
         if (SelectedUnit != null)
         {
@@ -109,13 +111,25 @@ public class UnitSelectionManager : MonoBehaviour
 
     private void HandleAttack(GameTile tile)
     {
-        // TODO: Disable attacking your own units
+        if (tile.OccupyingUnit == null)
+        {
+            Debug.Log("Cannot attack tile - no unit present!");
+            return;
+        }
+
+        // Prevent friendly fire
+        if (SelectedUnit.Team == tile.OccupyingUnit.Team)
+        {
+            Debug.Log("No friendly fire!");
+            return;
+        }
         
         // Try to attack the tile
         List<GameTile> validAttackTiles = GridManager.Instance.GetTilesInAttackRange(SelectedUnit);
         if (validAttackTiles.Contains(tile))
         {
             // TODO: Attack
+            SelectedUnit.AttackUnit(tile.OccupyingUnit);
             Debug.Log($"Unit attacks tile {tile.x},{tile.y}");
         }
         else

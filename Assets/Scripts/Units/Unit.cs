@@ -12,6 +12,12 @@ public enum UnitType
     EnemyMelee,
 }
 
+public enum UnitTeam
+{
+    Friendly,
+    Enemy
+}
+
 public class Unit : MonoBehaviour
 {
     [Header("Visuals")]
@@ -36,6 +42,11 @@ public class Unit : MonoBehaviour
     public int AttackStrength => attackStrength;
     public int DefendStrength => defendStrength;
     public int Health => health;
+
+    [SerializeField] protected UnitTeam team;
+    public UnitTeam Team => team;
+    public bool IsFriendly => team == UnitTeam.Friendly;
+    public bool IsEnemy => team == UnitTeam.Enemy;
 
     protected virtual void Awake()
     {

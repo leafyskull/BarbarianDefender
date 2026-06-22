@@ -134,10 +134,11 @@ public class UnitSelectionManager : MonoBehaviour
         // Else, handle unit selection/unselection.
         if (SelectedUnitAction == UnitAction.None)
         {
-            if (tile.OccupyingUnit == SelectedUnit)
+            Unit occupyingUnit = tile.OccupyingUnit;
+            if (occupyingUnit == SelectedUnit)
                 ClearSelection();
-            else if (tile.OccupyingUnit != null)
-                SelectUnit(tile.OccupyingUnit);
+            else if (occupyingUnit != null && occupyingUnit.IsFriendly)
+                SelectUnit(occupyingUnit);
         }
         else if (SelectedUnitAction == UnitAction.Move)
         {

@@ -4,29 +4,43 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
 
+public enum UnitType
+{
+    FriendlyWeakMelee,
+    FriendlyStrongMelee,
+    FriendlyRanged,
+    EnemyMelee,
+}
+
 public class Unit : MonoBehaviour
 {
-    // The highlight around the unit when they are selected
+    [Header("Visuals")]
     [SerializeField] private GameObject selectionVisual;
+
     public GameTile CurrentTile { get; private set; }
 
     public int x => CurrentTile.x;
     public int y => CurrentTile.y;
     
+    [Header("Stats")]
     private bool isSelected;
-    private int movePoints = 2;
-    private int attackRange = 1;
+    protected int maxHealth = 10;
+    protected int health;
+    protected int movePoints = 2;
+    protected int attackRange = 1;
+    protected int attackStrength = 1;
+    protected int defendStrength = 1;
+
     public int MovePoints => movePoints;
     public int AttackRange => attackRange;
-    private int attackStrength = 1;
-    private int defendStrength = 1;
-    public int AttackStrenght => attackStrength;
+    public int AttackStrength => attackStrength;
     public int DefendStrength => defendStrength;
-
-    private int health = 10;
     public int Health => health;
 
-
+    protected virtual void Awake()
+    {
+        this.health = maxHealth;
+    }
 
     // Init(): Creates a unit, sets it's position.
     //
@@ -76,10 +90,10 @@ public class Unit : MonoBehaviour
     //
     // For now, I'll just have the damage done be the difference between attacker's attack
     // strength and the target's defense strength. (TEMP)
-    public void AttackUnit(Unit enemyUnit)
+    public void AttackUnit(Unit targetUnit)
     {
-        int damage = this.attackStrength - enemyUnit.DefendStrength;
-        enemyUnit.ReduceHealth(damage);
+        int damage = Mathf.Max(0, this.attackStrength - targetUnit.DefendStrength);
+        targetUnit.ReduceHealth(damage);
     }
 
     // ReduceHealth(): Reduces a unit's health.
@@ -88,6 +102,19 @@ public class Unit : MonoBehaviour
     public void ReduceHealth(int amount)
     {
         if (amount < 0) return;
+
         this.health -= amount;
+
+        if (this.health <= 0)
+            Die();
+    }
+
+    // Die(): Destroys a unit.
+    private void Die()
+    {
+        if (CurrentTile != null)
+            CurrentTile.ClearOccupyingUnit();
+        
+        Destroy(gameObject);
     }
 }

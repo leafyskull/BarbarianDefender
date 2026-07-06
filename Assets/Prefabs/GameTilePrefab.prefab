@@ -156,7 +156,7 @@ MonoBehaviour:
   x: 0
   y: 0
   highlightRenderer: {fileID: 6999665395135063721}
-  hiddenRenderer: {fileID: 0}
+  hiddenRenderer: {fileID: 8749856114327744966}
 --- !u!1 &8097875455768751391
 GameObject:
   m_ObjectHideFlags: 0

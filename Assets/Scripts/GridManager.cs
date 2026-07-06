@@ -101,7 +101,7 @@ public class GridManager : MonoBehaviour
                 GameTile tile = tiles[x,y];
 
                 int distance = GetManhattanDistance(unit.x, unit.y, tile.x, tile.y);
-                if (distance <= unit.AttackRange)
+                if (distance <= unit.AttackRange && tile.IsVisible)
                 {
                     validTiles.Add(tile);
                 }

@@ -60,7 +60,7 @@ public class GameTile : MonoBehaviour, IPointerDownHandler
     {
         this.IsVisible = isVisible;
 
-        hiddenRenderer.enabled = isVisible;
+        hiddenRenderer.enabled = !isVisible;
     }
 
 }

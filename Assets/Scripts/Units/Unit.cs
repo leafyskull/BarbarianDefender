@@ -95,6 +95,9 @@ public class Unit : MonoBehaviour
         this.CurrentTile.SetOccupyingUnit(this);
 
         transform.position = new Vector3(destinationTile.x, destinationTile.y, -1);
+
+        if (GameFlowManager.Instance != null) GameFlowManager.Instance.OnFriendlyUnitMoved();
+        else Debug.LogWarning("GameFlowManager Instance is null!");
     }
 
     // AttackUnit(): Makes this unit attack a target unit.

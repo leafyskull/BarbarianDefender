@@ -14,12 +14,14 @@ public class GameTile : MonoBehaviour, IPointerDownHandler
 
     [Header("Visuals")]
     [SerializeField] private SpriteRenderer highlightRenderer;
+    [SerializeField] private SpriteRenderer hiddenRenderer;
 
     public void Init(int tileX, int tileY)
     {
         x = tileX;
         y = tileY;
         SetHighlight(false);
+        SetVisible(false);
     }
 
     // OnPointerDown(): Handles clicking on tiles.
@@ -57,6 +59,8 @@ public class GameTile : MonoBehaviour, IPointerDownHandler
     public void SetVisible(bool isVisible)
     {
         this.IsVisible = isVisible;
+
+        hiddenRenderer.enabled = isVisible;
     }
 
 }

@@ -45,6 +45,6 @@ public class GameInitializer : MonoBehaviour
         // UnitManager - nothing ATM
         unitSelectionManager.DoSetup();
         // UnitSpawner - nothing ATM
-        // VisionManager - nothing ATM
+        visionManager.RecalculateVision();
     }
 }

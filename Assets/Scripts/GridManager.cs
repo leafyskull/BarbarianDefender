@@ -17,6 +17,8 @@ public class GridManager : MonoBehaviour
 
     public GameTile[,] Tiles => tiles;
 
+    public bool isInitialized { get; private set; }
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -28,13 +30,17 @@ public class GridManager : MonoBehaviour
         Instance = this;
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void DoSetup()
     {
         GenerateGrid();
 
         // TEMP - spawning test unit here for now.
         SpawnTestUnits();
+    }
+
+    public void Initialize()
+    {
+        isInitialized = true;
     }
 
     private void GenerateGrid()
@@ -54,6 +60,8 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    // SpawnTestUnits(): Spawns some inital units, for testing.
+    // This will be removed/repurposed later.
     private void SpawnTestUnits()
     {
         // Friendly units
@@ -80,6 +88,7 @@ public class GridManager : MonoBehaviour
                 GameTile tile = tiles[x,y];
 
                 int distance = GetManhattanDistance(unit.x, unit.y, tile.x, tile.y);
+
                 if (distance <= unit.MovePoints)
                 {
                     validTiles.Add(tile);
@@ -101,6 +110,7 @@ public class GridManager : MonoBehaviour
                 GameTile tile = tiles[x,y];
 
                 int distance = GetManhattanDistance(unit.x, unit.y, tile.x, tile.y);
+
                 if (distance <= unit.AttackRange && tile.IsVisible)
                 {
                     validTiles.Add(tile);

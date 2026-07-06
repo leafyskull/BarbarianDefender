@@ -4,6 +4,8 @@ public class GameFlowManager : MonoBehaviour
 {
     public static GameFlowManager Instance;
 
+    public bool isInitialized { get; private set; }
+
 
     // Awake(): Sets instance reference
     private void Awake()
@@ -15,6 +17,11 @@ public class GameFlowManager : MonoBehaviour
         }
 
         Instance = this;
+    }
+
+    public void Initialize()
+    {
+        isInitialized = true;
     }
 
     public void OnFriendlyUnitMoved()

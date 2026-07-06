@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,6 +15,8 @@ public class VisionManager : MonoBehaviour
 
     private readonly HashSet<GameTile> visibleTiles = new HashSet<GameTile>();
 
+    public bool isInitialized { get; private set; }
+
 
     private void Awake()
     {
@@ -24,6 +27,11 @@ public class VisionManager : MonoBehaviour
         }
 
         Instance = this;
+    }
+
+    public void Initialize()
+    {
+        isInitialized = true;
     }
 
     public bool IsTileVisible(GameTile tile)

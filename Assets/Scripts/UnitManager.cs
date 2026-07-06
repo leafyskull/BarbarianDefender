@@ -14,6 +14,8 @@ public class UnitManager : MonoBehaviour
     public List<Unit> EnemyUnits => enemyUnits;
     public List<Unit> FriendlyUnits => friendlyUnits;
 
+    public bool isInitialized { get; private set; }
+
     
     
     private void Awake()
@@ -25,6 +27,11 @@ public class UnitManager : MonoBehaviour
         }
 
         Instance = this;
+    }
+
+    public void Initialize()
+    {
+        isInitialized = true;
     }
 
     // AddUnitToManager(): Starts tracking of unit

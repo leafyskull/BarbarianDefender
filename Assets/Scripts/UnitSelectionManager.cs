@@ -25,6 +25,8 @@ public class UnitSelectionManager : MonoBehaviour
     [SerializeField] private TMP_Text selectedUnitTypeText;
     [SerializeField] private TMP_Text selectedUnitmovePointsText;
 
+    public bool isInitialized { get; private set; }
+
 
     // Awake(): Sets instance reference
     private void Awake()
@@ -38,7 +40,12 @@ public class UnitSelectionManager : MonoBehaviour
         Instance = this;
     }
 
-    private void Start()
+    public void Initialize()
+    {
+        isInitialized = true;
+    }
+
+    public void DoSetup()
     {
         SelectedUnit = null;
         SelectedUnitAction = UnitAction.None;

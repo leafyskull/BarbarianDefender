@@ -16,6 +16,8 @@ public class UnitSpawner : MonoBehaviour
 
     private Dictionary<UnitType, Unit> unitPrefabs;
 
+    public bool isInitialized { get; private set; }
+
 
 
     private void Awake()
@@ -35,6 +37,11 @@ public class UnitSpawner : MonoBehaviour
             { UnitType.FriendlyRanged, friendlyRangedUnitPrefab },
             { UnitType.EnemyMelee, enemyMeleeUnitPrefab },
         };
+    }
+
+    public void Initialize()
+    {
+        isInitialized = true;
     }
 
     // SpawnUnitOnTile(): Spawns a unit on the given tile.

@@ -31,13 +31,16 @@ public class VisionManager : MonoBehaviour
         return visibleTiles.Contains(tile);
     }
 
-    public void RecalculateVision(List<Unit> friendlyUnits, List<GameTile> tiles)
+    public void RecalculateVision()
     {
+        List<Unit> friendlyUnits = UnitManager.Instance.FriendlyUnits;
+        GameTile[,] tiles = GridManager.Instance.Tiles;
+
         visibleTiles.Clear();
 
         foreach (GameTile tile in tiles)
         {
-            tile.SetVisible(false); // TODO: Implement
+            tile.SetVisible(false);
         }
 
         foreach (Unit unit in friendlyUnits)

@@ -15,6 +15,8 @@ public class GridManager : MonoBehaviour
     private GameTile[,] tiles;
     public static GridManager Instance;
 
+    public GameTile[,] Tiles => tiles;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)

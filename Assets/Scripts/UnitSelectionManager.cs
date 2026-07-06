@@ -291,5 +291,14 @@ public class UnitSelectionManager : MonoBehaviour
         HighlightMoveRange(SelectedUnit);
     }
 
+    // DestroyButtonClicked(): Called when the destroy button is clicked.
+    //
+    // This will destroy the current unit
+    public void DestroyButtonClicked()
+    {
+        SelectedUnit.Die();
+        ClearSelection();
+    }
+
 
 }

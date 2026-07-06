@@ -131,12 +131,14 @@ public class Unit : MonoBehaviour
     }
 
     // Die(): Destroys a unit.
-    private void Die()
+    public void Die()
     {
         if (CurrentTile != null)
             CurrentTile.ClearOccupyingUnit();
         
         UnitManager.Instance.RemoveUnitFromManager(this);
         Destroy(gameObject);
+
+        VisionManager.Instance.RecalculateVision();
     }
 }

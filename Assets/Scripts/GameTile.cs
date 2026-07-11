@@ -2,6 +2,15 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+
+
+public enum TerrainType{
+    Plains,
+    Forest,
+    Hill,
+    River
+}
+
 public class GameTile : MonoBehaviour, IPointerDownHandler
 {
     public int x;
@@ -11,17 +20,26 @@ public class GameTile : MonoBehaviour, IPointerDownHandler
     public bool IsOccupied => OccupyingUnit != null;
     public bool IsHighlighted { get; private set; }
     public bool IsVisible { get; private set; }
+    public TerrainData Terrain { get; private set; }
 
     [Header("Visuals")]
     [SerializeField] private SpriteRenderer highlightRenderer;
     [SerializeField] private SpriteRenderer hiddenRenderer;
+    [SerializeField] private SpriteRenderer terrainRenderer;
 
-    public void Init(int tileX, int tileY)
+    public void Init(int tileX, int tileY, TerrainType terrainType)
     {
         x = tileX;
         y = tileY;
+
         SetHighlight(false);
         SetVisible(false);
+    }
+
+    public void SetTerrain(TerrainData terrain)
+    {
+        this.Terrain = terrain;
+        terrainRenderer.sprite = terrain.sprite;
     }
 
     // OnPointerDown(): Handles clicking on tiles.

@@ -54,7 +54,7 @@ public class GridManager : MonoBehaviour
                 Vector3 position = new Vector3(x, y, 0);
                 GameObject tileObject = Instantiate(tilePrefab, position, Quaternion.identity);
                 GameTile tile = tileObject.GetComponent<GameTile>();
-                tile.Init(x, y);
+                tile.Init(x, y,);
                 tiles[x,y] = tile;
             }
         }

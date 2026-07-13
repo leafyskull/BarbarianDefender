@@ -27,11 +27,12 @@ public class GameTile : MonoBehaviour, IPointerDownHandler
     [SerializeField] private SpriteRenderer hiddenRenderer;
     [SerializeField] private SpriteRenderer terrainRenderer;
 
-    public void Init(int tileX, int tileY, TerrainType terrainType)
+    public void Init(int tileX, int tileY, TerrainData terrainData)
     {
         x = tileX;
         y = tileY;
 
+        SetTerrain(terrainData);
         SetHighlight(false);
         SetVisible(false);
     }

@@ -8,6 +8,8 @@ public class TerrainData : ScriptableObject
 
     [Header("Movement")]
     public int movementCost = 1;
+    public bool endsMovementOnEnter = false;
+    public bool endsMovementOnExit = false;
 
     [Header("Combat")]
     public int defenseBonus = 0;

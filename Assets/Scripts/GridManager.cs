@@ -6,14 +6,43 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
+    public static GridManager Instance;
+
     [SerializeField] private int width = 10;
     [SerializeField] private int height = 10;
-
     [SerializeField] private GameObject tilePrefab;
-    [SerializeField] private Unit unitPrefab; // TEMP: For spawning test unit
-    
+
+    [Header("Terrain Data")]
+    [SerializeField] private TerrainData plainsTerrain;
+    [SerializeField] private TerrainData forestTerrain;
+    [SerializeField] private TerrainData hillTerrain;
+    [SerializeField] private TerrainData riverTerrain;
+
+
+    // ******************** TERRAIN GENERATION ********************
+    [Header("Base Terrain Generation")]
+    [Range(0f, 1f)]
+    [SerializeField] private float hillChance = 0.15f;
+
+    [Header("Forest Generation")]
+    [SerializeField] private int forestClusterCount = 5;
+    [SerializeField] private int minForestClusterSize = 8;
+    [SerializeField] private int maxForestClusterSize = 20;
+
+    [Range(0f, 1f)]
+    [SerializeField] private float forestSpreadChance = 0.75f;
+
+    [Header("River Generation")]
+    [SerializeField] private int riverCount = 1;
+
+    [Range(0f, 1f)]
+    [SerializeField] private float riverTurnChance = 0.35f;
+
+    [SerializeField] private int maxRiverStepsMultiplier = 3;
+    // ************************************************************
+
     private GameTile[,] tiles;
-    public static GridManager Instance;
+    private TerrainData[,] generatedTerrain;
 
     public GameTile[,] Tiles => tiles;
 
@@ -46,19 +75,26 @@ public class GridManager : MonoBehaviour
     private void GenerateGrid()
     {
         tiles = new GameTile[width, height];
+        generatedTerrain = new TerrainData[width, height];
 
+        GenerateBaseTerrain();
+        GenerateForests();
+        GenerateRivers();
+        InstantiateTiles();
+    }
+
+    private void GenerateBaseTerrain()
+    {
         for (int x = 0; x < width; x++)
         {
-            for (int y = 0; y < width; y++)
+            for (int y = 0; y < height; y++)
             {
-                Vector3 position = new Vector3(x, y, 0);
-                GameObject tileObject = Instantiate(tilePrefab, position, Quaternion.identity);
-                GameTile tile = tileObject.GetComponent<GameTile>();
-                tile.Init(x, y,);
-                tiles[x,y] = tile;
+                generatedTerrain[x,y] = UnityEngine.Random.value < hillChance ? hillTerrain : plainsTerrain;
             }
         }
     }
+
+
 
     // SpawnTestUnits(): Spawns some inital units, for testing.
     // This will be removed/repurposed later.

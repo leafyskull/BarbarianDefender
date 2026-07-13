@@ -103,18 +103,32 @@ public class Unit : MonoBehaviour
     // AttackUnit(): Makes this unit attack a target unit.
     //
     // enemyUnit: The unit to attack.
-    //
-    // For now, I'll just have the damage done be the difference between attacker's attack
-    // strength and the target's defense strength. (TEMP)
     public void AttackUnit(Unit targetUnit)
     {
-        int damage = Mathf.Max(0, this.attackStrength - targetUnit.DefendStrength);
+        int damage = CalculateDamage(this, targetUnit);
+
         if (damage > targetUnit.Health) damage = targetUnit.Health;
 
         targetUnit.ReduceHealth(damage);
         
         Debug.Log($"{this} attacks {targetUnit}, does {damage} damage!");
         Debug.Log($"{targetUnit} remaining health: {targetUnit.Health}");
+    }
+
+    // CalculateDamage(): This calculates the damage done when a unit attacks.
+    //
+    // attacker: The unit attacking (the unit calling this function)
+    // defender: The unit defending, taking damage
+    //
+    // For now, I'll just have the damage done be the difference between attacker's attack
+    // strength and the target's defense strength. (TEMP)
+    private int CalculateDamage(Unit attacker, Unit defender)
+    {
+        // TODO: Implement terrain defense bonuses
+        // TODO: Implement attack bonuses (if any)
+        int damage = Mathf.Max(0, this.attackStrength - defender.DefendStrength);
+
+        return damage;
     }
 
     // ReduceHealth(): Reduces a unit's health.

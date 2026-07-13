@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d138cfab9dc378f44a5d86e5a0a80153, type: 3}
+  m_Name: River
+  m_EditorClassIdentifier: Assembly-CSharp::TerrainData
+  terrainType: 3
+  movementCost: 2
+  endsMovementOnEnter: 1
+  endsMovementOnExit: 1
+  defenseBonus: 0
+  canAttackFrom: 0
+  blocksVision: 0
+  visionHeight: 0
+  sprite: {fileID: 21300000, guid: ba80df23b77b26c46a2c68e7bba58c72, type: 3}

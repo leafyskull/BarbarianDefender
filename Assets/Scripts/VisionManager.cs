@@ -24,6 +24,7 @@ public class VisionManager : MonoBehaviour
     public bool isInitialized { get; private set; }
 
 
+    // Awake(): Establishes Instance.
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -35,11 +36,14 @@ public class VisionManager : MonoBehaviour
         Instance = this;
     }
 
+    // Initialize(): Flags to GameInitializer that the VisionManager is ready to go.
     public void Initialize()
     {
         isInitialized = true;
     }
 
+    // RecalculateVision(): Updated vision for tiles and units.
+    // This is called each time a movement/spawn/destroy of a unit is done.
     public void RecalculateVision()
     {
         List<Unit> friendlyUnits = UnitManager.Instance.FriendlyUnits;
@@ -71,6 +75,7 @@ public class VisionManager : MonoBehaviour
         UpdateEnemyVisibility();
     }
 
+    // AddVisionFromUnit(): Adds all tiles a unit can currently see to visible/seen tiles.
     private void AddVisionFromUnit(Unit unit)
     {
         GameTile origin = unit.CurrentTile;
@@ -83,11 +88,11 @@ public class VisionManager : MonoBehaviour
         }
     }
 
+    // UpdateEnemyVisibility(): Updates whether an enemy unit should currently be visible or not.
     private void UpdateEnemyVisibility()
     {
         foreach (Unit enemy in UnitManager.Instance.EnemyUnits)
         {
-            // bool isVisible = IsTileVisible(enemy.CurrentTile);
             if (visibleTiles.Contains(enemy.CurrentTile)) enemy.GetComponent<SpriteRenderer>().enabled = true;
             else enemy.GetComponent<SpriteRenderer>().enabled = false;
         }

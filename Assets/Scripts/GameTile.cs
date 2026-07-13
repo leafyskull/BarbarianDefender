@@ -25,6 +25,7 @@ public class GameTile : MonoBehaviour, IPointerDownHandler
     [Header("Visuals")]
     [SerializeField] private SpriteRenderer highlightRenderer;
     [SerializeField] private SpriteRenderer hiddenRenderer;
+    [SerializeField] private SpriteRenderer seenButNotVisibleRenderer;
     [SerializeField] private SpriteRenderer terrainRenderer;
 
     public void Init(int tileX, int tileY, TerrainData terrainData)
@@ -80,6 +81,14 @@ public class GameTile : MonoBehaviour, IPointerDownHandler
         this.IsVisible = isVisible;
 
         hiddenRenderer.enabled = !isVisible;
+        
+        if (isVisible) seenButNotVisibleRenderer.enabled = false;
+    }
+
+    public void SetSeenButNotVisible(bool isSeen)
+    {
+        this.IsVisible = false;
+        seenButNotVisibleRenderer.enabled = isSeen;
     }
 
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 
 public enum VisibilityState
@@ -14,6 +15,7 @@ public class VisionManager : MonoBehaviour
     public static VisionManager Instance;
 
     private readonly HashSet<GameTile> visibleTiles = new HashSet<GameTile>();
+    private readonly HashSet<GameTile> seenTiles = new HashSet<GameTile>();
 
     public bool isInitialized { get; private set; }
 
@@ -39,6 +41,11 @@ public class VisionManager : MonoBehaviour
         return visibleTiles.Contains(tile);
     }
 
+    public bool HasTileBeenSeen(GameTile tile)
+    {
+        return seenTiles.Contains(tile);
+    }
+
     public void RecalculateVision()
     {
         List<Unit> friendlyUnits = UnitManager.Instance.FriendlyUnits;
@@ -54,6 +61,12 @@ public class VisionManager : MonoBehaviour
         foreach (Unit unit in friendlyUnits)
         {
             AddVisionFromUnit(unit); // This will set "visibleTiles"
+        }
+
+        foreach (GameTile tile in seenTiles)
+        {
+            tile.SetVisible(true);
+            if (!visibleTiles.Contains(tile)) tile.SetSeenButNotVisible(true);
         }
 
         foreach (GameTile tile in visibleTiles)
@@ -72,6 +85,7 @@ public class VisionManager : MonoBehaviour
         foreach (GameTile tile in GridManager.Instance.GetTilesInRange(origin, range))
         {
             visibleTiles.Add(tile);
+            seenTiles.Add(tile);
         }
     }
 

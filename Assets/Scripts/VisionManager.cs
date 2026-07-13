@@ -2,13 +2,17 @@ using System;
 using System.Collections.Generic;
 using UnityEditor.Tilemaps;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
-public enum VisibilityState
-{
-    NeverSeen,           // A tile that's never been seen
-    SeenButNotVisible,   // A tile that has been seen before, but not currently
-    Visible              // A tile that's currently seen.
-}
+
+
+// THIS (VISIBILITYSTATE ENUM) IS CURRENTLY UNUSED, WILL EITHER IMPLEMENT OR REMOVE IN THE FUTURE.
+// public enum VisibilityState
+// {
+//     NeverSeen,           // A tile that's never been seen
+//     SeenButNotVisible,   // A tile that has been seen before, but not currently
+//     Visible              // A tile that's currently seen.
+// }
 
 public class VisionManager : MonoBehaviour
 {
@@ -34,16 +38,6 @@ public class VisionManager : MonoBehaviour
     public void Initialize()
     {
         isInitialized = true;
-    }
-
-    public bool IsTileVisible(GameTile tile)
-    {
-        return visibleTiles.Contains(tile);
-    }
-
-    public bool HasTileBeenSeen(GameTile tile)
-    {
-        return seenTiles.Contains(tile);
     }
 
     public void RecalculateVision()
@@ -93,8 +87,8 @@ public class VisionManager : MonoBehaviour
     {
         foreach (Unit enemy in UnitManager.Instance.EnemyUnits)
         {
-            bool isVisible = IsTileVisible(enemy.CurrentTile);
-            if (isVisible) enemy.GetComponent<SpriteRenderer>().enabled = true;
+            // bool isVisible = IsTileVisible(enemy.CurrentTile);
+            if (visibleTiles.Contains(enemy.CurrentTile)) enemy.GetComponent<SpriteRenderer>().enabled = true;
             else enemy.GetComponent<SpriteRenderer>().enabled = false;
         }
     }

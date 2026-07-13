@@ -984,7 +984,18 @@ MonoBehaviour:
   width: 10
   height: 10
   tilePrefab: {fileID: 4825834531581959921, guid: 28077587c2d4c4e45bec70f1d7429a16, type: 3}
-  unitPrefab: {fileID: 1241339560399648485, guid: 12bf72b280212d04293e0c98223259b1, type: 3}
+  plainsTerrain: {fileID: 11400000, guid: 223ef53cf4bf1dc4bb2d22b486b11306, type: 2}
+  forestTerrain: {fileID: 11400000, guid: a01f2c478539f76478d62c5a86808d5a, type: 2}
+  hillTerrain: {fileID: 11400000, guid: 16f93311e127e0e4d9b1851d46cd20a2, type: 2}
+  riverTerrain: {fileID: 11400000, guid: 19965edfdafdb024cb379752e9988ba2, type: 2}
+  hillChance: 0.15
+  forestClusterCount: 5
+  minForestClusterSize: 8
+  maxForestClusterSize: 20
+  forestSpreadChance: 0.75
+  riverCount: 1
+  riverTurnChance: 0.35
+  maxRiverStepsMultiplier: 3
 --- !u!4 &1211360756
 Transform:
   m_ObjectHideFlags: 0
